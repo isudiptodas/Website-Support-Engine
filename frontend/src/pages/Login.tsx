@@ -26,12 +26,14 @@ function Login() {
         setLoading(true);
 
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/register`, {
-                 email: email.trim(), password: password.trim()
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/login`, {
+                email: email.trim(), password: password.trim()
+            }, {
+                withCredentials: true
             });
 
             console.log(res);
-            if(res.status === 200){
+            if (res.status === 200) {
                 <Navigate to='/user/home' />
             }
         } catch (err: any) {
@@ -55,7 +57,7 @@ function Login() {
                 <div className={`w-125 h-125 bg-linear-to-br from-gray-600 to-black rounded-full opacity-15 absolute -right-1/2 -bottom-[20%] z-10`} />
 
                 <div className={`w-[90%] z-20 py-4 px-3 h-auto md:w-[60%] lg:w-[40%] flex flex-col justify-start items-center border border-zinc-600 mt-10`}>
-                  
+
                     <p className={`w-full text-start text-white text-lg font-light`}>Enter email</p>
                     <input onChange={(e) => setEmail(e.target.value)} type="text" className={`w-full bg-white text-black py-2 px-3 mt-2 outline-none mb-3`} placeholder="doejohn@mail.com" />
 
@@ -68,7 +70,7 @@ function Login() {
                     <p onClick={login} className={`w-full mt-3 bg-white text-black text-center py-2 active:opacity-85 duration-150 ease-in-out cursor-pointer flex justify-center items-center gap-2`}>Login <span className={`loading loading-spinner loading-sm ${loading ? "block" : "hidden"}`}></span></p>
                 </div>
 
-                 <p className={`text-white font-light mt-7 w-full text-sm text-center`}>Don't have an account ?</p>
+                <p className={`text-white font-light mt-7 w-full text-sm text-center`}>Don't have an account ?</p>
                 <Link to='/auth/register' className={`text-white font-semibold text-lg pb-2 border-b cursor-pointer w-auto px-3 text-center`}>Create one here</Link>
 
             </div>
