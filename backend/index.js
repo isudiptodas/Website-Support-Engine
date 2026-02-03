@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userAuth from './routes/auth.js';
-import fileUpload from './routes/uploadFile.js';
+import voting from './routes/voting.js';
 
 const app = express();
 
@@ -15,12 +15,12 @@ app.use(cors({
         process.env.FRONTEND_DEVELOPMENT_URL,
         'http://localhost:5173'
     ],
-    methods: ['GET', 'POST',],
+    methods: ['GET', 'POST', 'PUT'],
     credentials: true,
 }));
 
+app.use(voting);
 app.use(userAuth);
-app.use(fileUpload);
 
 const port = process.env.PORT || 5000;
 
