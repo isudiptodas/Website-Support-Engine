@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, Navigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { toast } from "sonner";
@@ -11,15 +11,12 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
 
     const login = async () => {
         if (!email || !password) {
             toast.error("All fields required");
-            return;
-        }
-
-        if (!email.includes('@gmail.com') || !email.includes('@outlook.com')) {
-            toast.error("Enter a valid personal email");
             return;
         }
 
@@ -32,9 +29,8 @@ function Login() {
                 withCredentials: true
             });
 
-            console.log(res);
             if (res.status === 200) {
-                <Navigate to='/user/home' />
+                navigate('/user/home');
             }
         } catch (err: any) {
             if (err && err.response.data.message) {
@@ -44,6 +40,9 @@ function Login() {
                 toast.error("Something went wrong");
             }
         }
+        finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -51,7 +50,7 @@ function Login() {
             <div className={`w-full h-screen flex flex-col justify-start items-center relative bg-linear-to-b from-zinc-800 to-zinc-950 overflow-hidden overflow-y-auto hide-scrollbar`}>
 
                 <h1 className={`w-full mt-5 z-20 text-center px-5 text-5xl md:text-7xl pt-5 lg:pt-0 pb-3 font-bold bg-linear-to-b from-white via-gray-400 to-gray-700 bg-clip-text text-transparent`}>Login</h1>
-                <p className={`w-full md:w-[70%] z-20 text-center text-white text-sm md:text-lg px-5`}>Manage what users can know about your website</p>
+                <p className={`w-full md:w-[70%] z-20 text-center text-white text-sm md:text-lg px-5`}></p>
 
                 <div className={`w-125 h-125 bg-linear-to-br from-gray-500 to-black rounded-full opacity-30 absolute -left-1/2 -bottom-[20%] z-10`} />
                 <div className={`w-125 h-125 bg-linear-to-br from-gray-600 to-black rounded-full opacity-15 absolute -right-1/2 -bottom-[20%] z-10`} />
