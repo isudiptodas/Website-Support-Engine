@@ -34,11 +34,13 @@ type User = {
 function Home() {
 
   const [votingData, setVotingData] = useState<Voting[] | null>(null);
+  const [filteredData, setFilteredData] = useState<Voting[] | null>(null);
   const [currentData, setCurrentData] = useState<Voting | null>(null);
   const [userData, setUserData] = useState<User | null>(null);
   const [votingPopupVisible, setVotingPopupVisible] = useState(false);
   const [submittingVote, setSubmittingVote] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [input, setInput] = useState('');
   const [now, setNow] = useState<Date>(new Date())
   const navigate = useNavigate();
 
@@ -127,6 +129,16 @@ function Home() {
 
   const pad = (n: number) => String(n).padStart(2, "0");
 
+  useEffect(() => {
+    const filtered = votingData?.filter((item) => {
+      return item.title.includes(input) || item.source.includes(input);
+    });
+
+    if (filtered) {
+      setFilteredData(filtered);
+    }
+  }, [input]);
+
   return (
     <>
       <div className={`w-full min-h-screen bg-linear-to-b from-zinc-800 to-zinc-950 flex flex-col justify-start items-center relative overflow-y-auto hide-scrollbar`}>
@@ -148,8 +160,39 @@ function Home() {
           </div>
         </div>
 
-        <div className={`w-full z-30 px-4 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-5`}>
+        <div className={`w-full lg:w-[60%] xl:w-[40%] px-5 mt-7 flex flex-col justify-start items-center`}>
+          <input onChange={(e) => setInput(e.target.value)} placeholder="Search campaign" type="text" className={`w-full py-3 px-3 outline-none text-white text-sm bg-zinc-950`} />
+        </div>
+
+        <div className={`w-full ${input? "hidden" : "block"} z-30 px-4 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-5`}>
           {votingData && votingData.map((item, index) => {
+            const left = timeLeft(item.expiry as string);
+            return <div key={index} className={`w-full cursor-pointer group flex flex-col justify-start items-start backdrop-blur-md bg-black/30 px-3 py-3`}>
+              <p className={`w-auto text-[8px] capitalize px-4 py-1 rounded-full bg-zinc-900`}>{item.category}</p>
+              <p className={`w-auto text-sm font-semibold capitalize px-2 py-5`}>{item.title}</p>
+              <p className={`w-full text-start text-[12px] px-3 font-mono pb-3 text-green-400`}>{left ? (
+                <span>
+                  {left.days}d{" "}
+                  {pad(left.hours)}:
+                  {pad(left.minutes)}:
+                  {pad(left.seconds)}
+                </span>
+              ) : (
+                <span className={`w-full text-start text-[12px] px-3 font-mono pb-3 text-red-500`}>Expired</span>
+              )}</p>
+              <div className={`w-full ${item.voterEmail.includes(userData?.email as string) ? "hidden" : "block"} flex justify-between items-center py-2 px-3`}>
+                <div className={`w-[10%] group-hover:w-[30%] duration-300 ease-in-out flex justify-center items-center`}> <span className={`w-full h-px bg-white`}></span> <span><IoIosArrowForward /></span></div>
+                <p onClick={() => { setCurrentData(item); setVotingPopupVisible(true) }} className={`w-auto  px-6 cursor-pointer active:opacity-80 duration-200 ease-in-out py-1 rounded-full bg-white text-black text-[12px]`}>Vote</p>
+              </div>
+              <p className={`w-full text-center ${item.voterEmail.includes(userData?.email as string) ? "block" : "hidden"} text-[12px] opacity-70 italic py-3`}>You have already votes</p>
+            </div>
+          })}
+        </div>
+
+        {/* filtered data */}
+
+        <div className={`w-full ${input ? "block" : "hidden"} z-30 px-4 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-5`}>
+          {filteredData && filteredData.map((item, index) => {
             const left = timeLeft(item.expiry as string);
             return <div key={index} className={`w-full cursor-pointer group flex flex-col justify-start items-start backdrop-blur-md bg-black/30 px-3 py-3`}>
               <p className={`w-auto text-[8px] capitalize px-4 py-1 rounded-full bg-zinc-900`}>{item.category}</p>
