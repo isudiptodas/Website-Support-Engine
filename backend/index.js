@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import userAuth from './routes/auth.js';
 import voting from './routes/voting.js';
 
-export const app = express();
+const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
@@ -24,6 +24,10 @@ app.use(userAuth);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
-    console.log('Server started');
-})
+if (process.env.NODE_ENV !== "test") {
+    app.listen(port, () => {
+        console.log('Server started');
+    })
+}
+
+export default app;
