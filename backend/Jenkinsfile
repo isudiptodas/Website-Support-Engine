@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    stages {
+            stage('clone'){
+                steps{
+                    echo 'Cloning git repository'
+                    git branch: 'main', url: 'https://github.com/isudiptodas/Cloud-Voting-System.git'
+                    echo 'Cloning successfull'
+                }
+            }
+            stage('build'){
+                steps{
+                    echo 'Building image from code'
+                    sh 'cd backend'
+                    sh 'docker build -t voting_backend .'
+                    echo 'Build successfull'
+                }
+            }
+            stage('push'){
+                steps{
+                    echo 'Pushing to docker hub'
+                    sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
+                    sh 'docker push ${DOCKER_USERNAME}/voting_backend'
+                    echo 'Push successfull'
+                }
+            }
+        }
+}
