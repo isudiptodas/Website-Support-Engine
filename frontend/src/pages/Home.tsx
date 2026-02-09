@@ -186,7 +186,7 @@ function Home() {
                 <div className={`w-[10%] group-hover:w-[30%] duration-300 ease-in-out flex justify-center items-center`}> <span className={`w-full h-px bg-white`}></span> <span><IoIosArrowForward /></span></div>
                 <p onClick={() => { setCurrentData(item); setVotingPopupVisible(true) }} className={`w-auto  px-6 cursor-pointer active:opacity-80 duration-200 ease-in-out py-1 rounded-full bg-white text-black text-[12px]`}>Vote</p>
               </div>
-              <p className={`w-full text-center ${item.voterEmail.includes(userData?.email as string) ? "block" : "hidden"} text-[12px] opacity-70 italic py-3`}>You have already votes</p>
+              <p className={`w-full text-center ${item.voterEmail.includes(userData?.email as string) ? "block" : "hidden"} text-[12px] opacity-70 italic py-3`}>You have already voted</p>
             </div>
           })}
         </div>
@@ -213,7 +213,7 @@ function Home() {
                 <div className={`w-[10%] group-hover:w-[30%] duration-300 ease-in-out flex justify-center items-center`}> <span className={`w-full h-px bg-white`}></span> <span><IoIosArrowForward /></span></div>
                 <p onClick={() => { setCurrentData(item); setVotingPopupVisible(true) }} className={`w-auto  px-6 cursor-pointer active:opacity-80 duration-200 ease-in-out py-1 rounded-full bg-white text-black text-[12px]`}>Vote</p>
               </div>
-              <p className={`w-full text-center ${item.voterEmail.includes(userData?.email as string) ? "block" : "hidden"} text-[12px] opacity-70 italic py-3`}>You have already votes</p>
+              <p className={`w-full text-center ${item.voterEmail.includes(userData?.email as string) ? "block" : "hidden"} text-[12px] opacity-70 italic py-3`}>You have already voted</p>
             </div>
           })}
         </div>
