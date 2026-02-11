@@ -6,6 +6,7 @@ const votingSchema = mongoose.Schema({
   source: { type: String, required: true },
   optionNumber: { type: Number, required: true },
   userEmail: { type: String, required: false },
+  expiry: { type: String, required: true },
   options: [{
     text: { type: String, required: true },
     votes: { type: Number, default: 0 }

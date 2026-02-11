@@ -5,17 +5,20 @@ import cookieParser from 'cookie-parser';
 import userAuth from './routes/auth.js';
 import voting from './routes/voting.js';
 import { redisConnect } from './config/redisConnect.js';
+import { connectDB } from './config/connectDB.js';
 
 const app = express();
 
-async function initRedis() {
+async function initConnection() {
     if (!redisConnect.isOpen) {
         await redisConnect.connect();
         console.log(`Redis connected`);
     }
+
+    await connectDB(process.env.NODE_ENV);
 }
 
-initRedis();
+initConnection();
 
 app.use(express.json());
 app.use(cookieParser());

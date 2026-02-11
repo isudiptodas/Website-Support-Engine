@@ -1,5 +1,4 @@
 import express from 'express';
-import { connectDB } from '../config/connectDB.js';
 import { User } from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -10,8 +9,6 @@ const router = express.Router();
 
 router.post('/api/register', rateLimit, async (req, res) => {
     const { name, email, password } = req.body;
-
-    await connectDB();
 
     try {
         const present = await User.findOne({ email });
@@ -49,8 +46,6 @@ router.post('/api/register', rateLimit, async (req, res) => {
 
 router.post('/api/login', rateLimit, async (req, res) => {
     const { email, password } = req.body;
-
-    await connectDB();
 
     try {
         const present = await User.findOne({ email });

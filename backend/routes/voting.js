@@ -1,5 +1,4 @@
 import express from 'express'
-import { connectDB } from '../config/connectDB.js'
 import { Voting } from '../models/VotingModel.js'
 import { redisConnect } from '../config/redisConnect.js';
 import { authenticate } from '../middleware/authenticate.js';
@@ -8,7 +7,6 @@ import { rateLimit } from '../middleware/rateLimit.js';
 const router = express.Router();
 
 router.get('/api/get-voting-list', rateLimit, async (req, res) => {
-    await connectDB();
 
     try {
 
@@ -41,7 +39,6 @@ router.get('/api/get-voting-list', rateLimit, async (req, res) => {
 });
 
 router.put('/api/cast-vote', rateLimit, authenticate, async (req, res) => {
-    await connectDB();
 
     const { campaignID, answer } = req.body;
     const userData = req.userData;
@@ -80,6 +77,45 @@ router.put('/api/cast-vote', rateLimit, authenticate, async (req, res) => {
             message: "Something went wrong"
         });
     }
+});
+
+router.post('/api/create-campaign', rateLimit, authenticate, async (req, res) => {
+    const { title, source, options, expiry, category } = req.body;
+    const userdata = req.userData;
+
+    const updatedOptions = options.map((item) => {
+        return { text: item.text, votes: 0 }
+    });
+
+    try {
+
+        const newVoting = new Voting({
+            title, source,
+            optionNumber: updatedOptions.length,
+            expiry,
+            options: updatedOptions,
+            userEmail: userdata.email,
+            category
+        });
+
+        await newVoting.save();
+        
+        const campaigns = await Voting.find();
+        await redisConnect.set('allVoting', JSON.stringify(campaigns));
+
+        return res.status(200).json({
+            success: true,
+            message: "Campaign created",
+            newVoting
+        });
+    } catch (err) {
+        console.log(`Error -> `, err);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
+    }
+
 });
 
 
