@@ -26,7 +26,10 @@ pipeline {
         stage('Run test') {
             steps {
                 dir('backend') {
-                    sh 'cross-env NODE_ENV=test npm test'
+                    sh '''
+                    export NODE_ENV=test 
+                    npm test
+                    '''
                     echo 'Test successful'
                 }
             }
@@ -85,6 +88,7 @@ pipeline {
         }
     }
 }
+
 
 
 
