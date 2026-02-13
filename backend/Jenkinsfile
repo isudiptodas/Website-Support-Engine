@@ -3,7 +3,7 @@ pipeline {
     agent { label 'worker_agent' }
     
     environment {
-        MONGO_TEST = credentials('MONGODB_TEST_URL')
+        MONGODB_TEST_URL = credentials('MONGODB_TEST_URL')
         REDIS_HOST = credentials('REDIS_HOST')
         REDIS_PORT = credentials('REDIS_PORT')
         REDIS_PASSWORD = credentials('REDIS_PASSWORD')
@@ -26,11 +26,6 @@ pipeline {
         stage('Run test') {
             steps {
                 dir('backend') {
-                    sh 'export MONGODB_TEST_URL=$MONGO_TEST'
-                    sh 'export REDIS_HOST=$REDIS_HOST'
-                    sh 'export REDIS_PORT=$REDIS_PORT'
-                    sh 'export REDIS_USERNAME=$REDIS_USERNAME'
-                    sh 'export REDIS_PASSWORD=$REDIS_PASSWORD'
                     sh 'cross-env NODE_ENV=test npm test'
                     echo 'Test successful'
                 }
@@ -66,6 +61,7 @@ pipeline {
                     sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
                     sh 'docker push $IMAGE_NAME'
                     echo 'Image pushed to registry'
+                    sh 'docker logout'
                 }
             }
         }
@@ -73,13 +69,13 @@ pipeline {
 
     post {
         success {
-            mail to: $USER_EMAIL,
+            mail to: env.USER_EMAIL,
             subject: "SUCCESS ! Pipeline executed",
             body: "Cloudvault backend pipeline executed successfully."
         }
         
         failure {
-            mail to: $USER_EMAIL,
+            mail to: env.USER_EMAIL,
             subject: "ERROR ! Pipeline stopped",
             body: "Cloudvault backend pipeline stopped due to error. View logs for problem identification."
         }
@@ -89,6 +85,7 @@ pipeline {
         }
     }
 }
+
 
 
 
