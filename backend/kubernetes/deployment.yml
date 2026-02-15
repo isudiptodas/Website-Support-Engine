@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudvault-backend
+  labels:
+    app: cloudvault
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloudvault
+  template:
+    metadata:
+      labels:
+        app: cloudvault
+    spec:
+      containers:
+      - name: cloudvault
+        image: isudiptodas/cloudvault-backend:04
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - secretRef:
+          name: cloudvault-secret
