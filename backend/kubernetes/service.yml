@@ -3,9 +3,11 @@ kind: Service
 metadata:
   name: cloudvault-service
 spec:
+  type: LoadBalancer
   selector:
     app: cloudvault-backend
   ports:
     - protocol: TCP
       port: 80
       targetPort: 5000
+
