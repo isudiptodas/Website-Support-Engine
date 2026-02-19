@@ -15,7 +15,7 @@ pipeline {
     
     stages {
 
-        stage('Install dependency') {
+        stage('Install dependency for test') {
             steps {
                 dir('backend') {
                     sh 'npm install'
@@ -96,6 +96,7 @@ pipeline {
         }
     }
 }
+
 
 
 
