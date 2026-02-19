@@ -53,7 +53,7 @@ pipeline {
                 echo 'Scan completed'
             }
         }
-        */
+        
         stage('Push to registry') {
             steps {
                 withCredentials([usernamePassword(
@@ -69,13 +69,14 @@ pipeline {
                 }
             }
         }
-        
+        */
+        /*
         stage('Update EKS deployment') {
             steps {
                 sh 'kubectl set image deployment/cloudvault-backend cloudvault=$IMAGE_NAME'
             }
         }
-        
+        */
     }
 
     post {
@@ -96,6 +97,7 @@ pipeline {
         }
     }
 }
+
 
 
 
