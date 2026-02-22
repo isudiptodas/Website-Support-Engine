@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
-    "start": "cross-env NODE_ENV=dev nodemon index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -32,4 +32,5 @@
     "vitest": "^4.0.18"
   }
 }
+
 
