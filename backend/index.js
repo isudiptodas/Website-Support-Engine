@@ -34,6 +34,13 @@ app.use(cookieParser());
 
 app.use(cors());
 
+app.get('/', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Backend running... heheheheeee"
+    })
+});
+
 app.use(voting);
 app.use(userAuth);
 
@@ -47,4 +54,5 @@ if (process.env.NODE_ENV !== "test") {
 
 
 export default app;
+
 
