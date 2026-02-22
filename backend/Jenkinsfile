@@ -73,7 +73,10 @@ pipeline {
         
         stage('Update EKS deployment') {
             steps {
-                sh 'kubectl set image deployment/cloudvault-backend cloudvault=$IMAGE_NAME'
+                sh '''
+                   kubectl set image deployment/cloudvault-backend cloudvault=$IMAGE_NAME
+                   kubectl rollout status deployment/cloudvault-backend --timeout=180s
+                 '''
             }
         }
         
@@ -97,6 +100,7 @@ pipeline {
         }
     }
 }
+
 
 
 
