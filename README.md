@@ -5,9 +5,8 @@
 <ul>
   <li>Decoupled Frontend</li>
   <li>CI/CD with jenkins</li>
-  <li>Kubernetes container orchestration</li>
+  <li>Kubernetes container orchestration with AWS EKS</li>
   <li>Load balancing using AWS ELB</li>
-  <li>Cloud hosted microservice style backend</li>
   <li>Application monitoring with prometheus and grafana</li>
 </ul>
 
