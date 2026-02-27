@@ -2,13 +2,19 @@
 <p><b>Tech Stack : </b> <i>ReactJS, NodeJS, ExpressJS, MongoDB, Redis, Docker, Kubernetes, Jenkins, AWS ELB, Prometheus, Grafana</i></p>
 
 <h2>Architecture :</h2>
-<ul>
+<ol>
   <li>Decoupled Frontend</li>
   <li>CI/CD with jenkins</li>
+  <ul>
+    <li>Docker base image optimization with layered caching</li>
+    <li>Secure env with jenkins credential manager</li>
+    <li>Conditional dependency installation (storage cache)</li>
+    <li>Image scan for vulnerabilities and issues</li>
+  </ul>
   <li>Kubernetes container orchestration with AWS EKS</li>
   <li>Load balancing using AWS ELB</li>
   <li>Application monitoring with prometheus and grafana</li>
-</ul>
+</ol>
 
 <br/>
 
