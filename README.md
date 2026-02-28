@@ -1,4 +1,16 @@
 <h1>Cloud Native DevOps Architecture</h1>
+
+<img height='800' src='https://github.com/isudiptodas/Cloud-Voting-System/blob/main/working.jpg' />
+
+<h2>System Working</h2>
+<ul>
+  <li>Frontend deployed on vercel (Independent)</li>
+  <li>Database hosted on cloud servers (Auto manage) </li>
+  <li>Backend connects with jenkins webhook</li>
+  <li>On each code push webhook triggers, test happens, builds image, pushed on docker hub</li>
+  <li>Image updates and deployed on kubernetes cluster</li>
+</ul>
+
 <p><b>Tech Stack : </b> <i>ReactJS, NodeJS, ExpressJS, MongoDB, Redis, Docker, Kubernetes, Jenkins, AWS ELB, Prometheus, Grafana</i></p>
 
 <h2>Architecture :</h2>
@@ -11,37 +23,13 @@
     <li>Conditional dependency installation (storage cache)</li>
     <li>Image scan for vulnerabilities and issues</li>
     <li>EKS image update rollout confirmation</li>
+    <li>Auto rollback in case image updation fails</li>
     <li>Email alert post pipeline execution</li>
   </ul>
   <li>Kubernetes container orchestration with AWS EKS</li>
   <li>Load balancing using AWS ELB</li>
   <li>Application and cluster monitoring with prometheus and grafana</li>
 </ol>
-
-<br/>
-
-<h2>User Flow</h2>
-<img height='450' src='https://github.com/isudiptodas/Cloud-Voting-System/blob/main/user-flow.jpg' />
-<ul>
-  <li>User enters URL and visits webistes</li>
-  <li>Frontend loads</li>
-  <li>At any operation the traffic will be forwarded to the load balancer</li>
-  <li>The load balancer will forward traffic based on server health and incoming load</li>
-  <li>Each backend pods will connect with the database and returns response</li>
-</ul>
-<br/>
-
-<h2>Internal Working</h2>
-<img height='500' src='https://github.com/isudiptodas/Cloud-Voting-System/blob/main/internal-working.jpg' />
-<ul>
-  <li>Frontend deployed on vercel (Independent)</li>
-  <li>Database hosted on cloud servers (Auto manage) </li>
-  <li>Backend connects with jenkins webhook</li>
-  <li>On each code push webhook triggers, test happends, builds image, pushed on docker hub</li>
-  <li>Image pulled from docker hub & deployed on kubernetes cluster</li>
-  <li>All operations, health monitored and logged with prometheus & grafana</li>
-  <li>Life cycle continues</li>
-</ul>
 
 ###
 
